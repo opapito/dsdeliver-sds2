@@ -33,7 +33,7 @@ public class OrderService {
 		return list.stream().map(x -> new OrderDTO(x)).collect(Collectors.toList());
 	}
 	
-	
+	// "Transactional" indicates a database operation to be performed
 	@Transactional
 	public OrderDTO insert(OrderDTO dto){
 		Order order = new Order(null, dto.getAddress(), dto.getLatitude(), dto.getLongitude(), 
@@ -46,6 +46,21 @@ public class OrderService {
 		order = repository.save(order);
 		return new OrderDTO(order);
 	}
+	
+	@Transactional
+	public OrderDTO setDelivered(Long id){
+		/* How to change a database item
+		 * (1) getOne to instantiate in memory an object monitored by JPA (without touch the database) 
+		 * (2) Make the necessary changes in this object 
+		 * (3) Save the changed object on the database
+		 */
+		Order order = repository.getOne(id);
+		order.setStatus(OrderStatus.DELIVERED);
+		order = repository.save(order);
+		return new OrderDTO(order);
+	}
+	
+	
 
 }
 
