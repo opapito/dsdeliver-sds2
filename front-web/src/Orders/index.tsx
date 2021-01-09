@@ -9,7 +9,8 @@ import OrderSummary from './OrderSummary';
 import Footer from '../Footer';
 import { checkIsSelected } from './helpers'
 import { toast } from 'react-toastify';
-
+import { css } from "@emotion/core";
+import BounceLoader from "react-spinners/BounceLoader";
 /*
 (1) Installing react-router: 
   npm install react-router-dom
@@ -28,6 +29,12 @@ If the dependence list parameter is present, effect will only activate if the va
 An empty dependency list means the function passed as a parameter can be started without the need to wait for any dependency.
 
 */
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
+
 
 function Orders(){
   const [products, setProducts] = useState<Product[]>([]);
@@ -36,12 +43,20 @@ function Orders(){
   const totalPrice = selectedProducts.reduce((sum, item) => {
     return sum + item.price;
   }, 0);
-  
+  const [loading, setLoading] = useState<boolean>();
+  const [color, setColor] = useState("#FF0000");
+
   useEffect(()=>{
+    setLoading(true);
     fetchProducts()
-      .then(response => setProducts(response.data)) // ".data" does not correspond to a field in our database. It is a convention of axios to returning data
+      .then(response =>{
+        setProducts(response.data);
+        setLoading(false);
+
+      }) // ".data" does not correspond to a field in our database. It is a convention of axios to returning data
       .catch(err => {
-        toast.warning('Error about listing products')
+        toast.warning('Error about listing products');
+        console.log(err);
       })
   },[]);
 
@@ -78,11 +93,18 @@ function Orders(){
     <>
       <div className="orders-container">
         <StepsHeader />
-        <ProductsList 
-          products={products}
-          onSelectProduct={handleSelectProduct}
-          selectedProducts={selectedProducts}
-        />
+        {loading
+        ? 
+          <div className="sweet-loading">
+            <BounceLoader color={color} css={override} loading={loading} />
+          </div>
+        :
+          <ProductsList 
+            products={products}
+            onSelectProduct={handleSelectProduct}
+            selectedProducts={selectedProducts}
+          />        
+        }
         <OrderLocation onChangeLocation={location => setOrderLocation(location)}/>
         <OrderSummary
           amount={selectedProducts.length}
