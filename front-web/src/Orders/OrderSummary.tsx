@@ -1,4 +1,3 @@
-import { VoidExpression } from "typescript";
 import { formatPrice } from "./helpers";
 
 type Props = {
