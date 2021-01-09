@@ -2,12 +2,13 @@ import './styles.css';
 import StepsHeader from './StepsHeader';
 import ProductsList from './ProductsList';
 import { useEffect, useState } from 'react';
-import { Product, OrderLocationdata } from './types';
-import { fetchProducts } from '../api';
+import { Product, OrderLocationData } from './types';
+import { fetchProducts, saveOrder } from '../api';
 import OrderLocation from './OrderLocation';
 import OrderSummary from './OrderSummary';
 import Footer from '../Footer';
 import { checkIsSelected } from './helpers'
+import { toast } from 'react-toastify';
 
 /*
 (1) Installing react-router: 
@@ -31,7 +32,7 @@ An empty dependency list means the function passed as a parameter can be started
 function Orders(){
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
-  const [orderLocation, setOrderLocation] = useState<OrderLocationdata>();
+  const [orderLocation, setOrderLocation] = useState<OrderLocationData>();
   const totalPrice = selectedProducts.reduce((sum, item) => {
     return sum + item.price;
   }, 0);
@@ -39,7 +40,9 @@ function Orders(){
   useEffect(()=>{
     fetchProducts()
       .then(response => setProducts(response.data)) // ".data" does not correspond to a field in our database. It is a convention of axios to returning data
-      .catch(err => console.log(err))
+      .catch(err => {
+        toast.warning('Error about listing products')
+      })
   },[]);
 
   const handleSelectProduct = (product: Product) => {
@@ -52,6 +55,24 @@ function Orders(){
       setSelectedProducts(previous => [...previous, product]);
     }
   }
+
+  const handleSubmit = () => {
+    const productsIds = selectedProducts.map(({ id }) => ({ id }));
+    const payload = {
+      ...orderLocation!,
+      products: productsIds
+    }
+  
+    saveOrder(payload)
+      .then((response) => {
+        toast.error(`Order placed! Nº ${response.data.id}`);
+        setSelectedProducts([]);
+    })
+      .catch(() => {
+        toast.warning('Error in placing order');
+      })
+  }
+
 
   return(
     <>
@@ -66,6 +87,7 @@ function Orders(){
         <OrderSummary
           amount={selectedProducts.length}
           totalPrice={totalPrice}
+          onSubmit={handleSubmit}
         />
       </div>
         <Footer />
