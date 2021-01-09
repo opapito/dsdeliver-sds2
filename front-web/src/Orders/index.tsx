@@ -44,10 +44,11 @@ function Orders(){
     return sum + item.price;
   }, 0);
   const [loading, setLoading] = useState<boolean>();
-  const [color, setColor] = useState("#FF0000");
+  const [color, setColor] = useState<string>();
 
   useEffect(()=>{
     setLoading(true);
+    setColor("#FF0000");
     fetchProducts()
       .then(response =>{
         setProducts(response.data);
