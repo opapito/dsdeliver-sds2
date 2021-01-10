@@ -98,6 +98,18 @@ public class Order implements Serializable {
 	public void setStatus(OrderStatus status) {
 		this.status = status;
 	}
+	/* The use of ORM (JPA + hibernate) facilitates the call of a calculated field 
+	 * Calling this getTotal() method together with an order call in the database, the JPA
+	 * will automatically search order's products and sum them all
+	 * 
+	 */
+	public Double getTotal() {
+		double sum = 0.0;
+		for (Product p: products) {
+			sum += p.getPrice();
+		}
+		return sum;
+	}
 
 	public Set<Product> getProducts() {
 		return products;
