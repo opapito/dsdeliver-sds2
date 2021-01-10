@@ -19,7 +19,7 @@ function ProductCard({ product, onSelectProduct, isSelected }: Props) {
           {product.name}
         </h3>
         <img 
-          src={require(`${product.imageUri}`)}
+          src={product.imageUri}
           className="order-card-image"
           alt={product.name}
           />
