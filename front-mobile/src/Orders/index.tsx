@@ -1,11 +1,12 @@
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, ScrollView, Alert, Text } from 'react-native';
+import { StyleSheet, ScrollView, Alert, View } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { fetchOrders } from '../api';
 import Header from '../Header';
 import OrderCard from '../OrderCard';
 import { Order } from '../types';
+import { Bounce } from 'react-native-animated-spinkit'
 
 export default function Orders() {
 /*
@@ -43,7 +44,11 @@ export default function Orders() {
       <ScrollView style={styles.container}>
         {isLoading
         ?
-        (<Text> Loading... </Text>)
+        (
+          <View style={styles.sppiner}>
+            <Bounce size={50} color="#FF0000" />
+          </View>
+        )
         :
         (orders.map(order => (
           <TouchableWithoutFeedback
@@ -63,5 +68,11 @@ const styles = StyleSheet.create({
   container: {
     paddingRight:'5%',
     paddingLeft:'5%',
+  },
+  sppiner: {
+    flex:1,
+    alignItems: 'center',
+    justifyContent:'center',
+    borderColor:'#FF0000',
   }
 });
