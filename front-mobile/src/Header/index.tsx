@@ -1,12 +1,25 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 export default function Header() {
+  /*
+    By default, a View component is NOT touchable. Using TouchableWithoutFeedback we can capture a view touch with the onPress event and attach a function on it
+    In this case, we will return to HOME when the user touch the Header
+  */
+ const navigation = useNavigation();
+
+ const handleOnPress = () =>{
+   navigation.navigate('Home');
+ }
   return (
-    <View style={styles.container}>
-      <Image source={require('../assets/logo.png')} />
-      <Text style={styles.text}>DS Delivery</Text>
-    </View>
+    <TouchableWithoutFeedback onPress={handleOnPress}>
+      <View style={styles.container}>
+        <Image source={require('../assets/logo.png')} />
+        <Text style={styles.text}>DS Delivery</Text>
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 

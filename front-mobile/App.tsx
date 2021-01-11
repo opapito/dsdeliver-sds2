@@ -2,9 +2,8 @@ import { useFonts, OpenSans_400Regular, OpenSans_700Bold  } from '@expo-google-f
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Header from './src/Header';
 import AppLoading from 'expo-app-loading';
-import Home from './src/Home';
+import Routes from './src/Routes';
 
 /*
   (1) In React Native there is no DIV. Every time you want to create a <div> you use the tag <View>
@@ -25,8 +24,7 @@ export default function App() {
   }  
   return (
     <View style={styles.container}>
-      <Header />
-      <Home />
+      <Routes />
       <StatusBar style="auto" />
     </View>
   );
