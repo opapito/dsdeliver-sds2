@@ -46,7 +46,7 @@ export default function Orders() {
         ?
         (
           <View style={styles.sppiner}>
-            <Bounce size={50} color="#FF0000" />
+            <Bounce size={45} color="#FF0000" />
           </View>
         )
         :
@@ -74,5 +74,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent:'center',
     borderColor:'#FF0000',
+    paddingTop:'1%',
   }
 });
