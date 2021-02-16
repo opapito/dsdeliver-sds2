@@ -18,9 +18,13 @@ The [DS Delivery project](https://sds2-opapito.netlify.app/ "DsDelivery") is a p
 
 ![alt text](img/FrontMob.gif "Title Text")
 
+## Project Design
+
+![Concept model](img/ds_delivery.png)
+
 ## Concept model
 
-![Concept model](img/conceptModel.png)
+![Concept model](img/DsconceptModel.png)
 
 ## Technologies
 
