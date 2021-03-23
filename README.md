@@ -76,7 +76,7 @@ Prerequisites: npm / yarn
 
 ```bash
 # The first step is to clone the project
-git clone https://github.com/devsuperior/sds1-wmazoni
+git clone https://github.com/opapito/dsdeliver-sds2
 
 # Enter the project directory
 cd front-web
